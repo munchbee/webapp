@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://ninja:ninja69@ds031611.mongolab.com:31611/ninjadb');
+mongoose.connect(process.env.DB_URI);
 
 module.exports = mongoose.connection;
