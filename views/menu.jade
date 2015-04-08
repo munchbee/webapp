@@ -1,0 +1,33 @@
+extends layout
+
+block content
+	script(src="menu.js" type="text/javascript")
+	link(rel="stylesheet", href="style.css")
+	div.row
+		div.col-md-2
+		ul.col-md-9#sortable
+			h2 Preferences
+			each combo, index in menu
+				li.thumbnail.col-md-3
+					h3.caption= combo.comboID
+					p= combo.mainCourse 
+					p= combo.drinks
+	div.row
+		div.col-md-2
+		div.col-md-6
+			h2 Contact Details
+			form(method='post')
+				input(name='name', class='col-md-6 input-block-level form-control', placeholder='Name') 
+				br
+				br
+				input(name='contactNumber', class='col-md-6 input-block-level form-control', placeholder='Contact No.') 
+				br
+				br
+				input(name='emailId', class='col-md-6 input-block-level form-control', placeholder='Email ID') 
+				br
+				br
+				input(name='companyName', class='col-md-6 input-block-level form-control', placeholder='Company') 
+				br
+				br
+				br
+				input(type='submit', class='btn btn-primary', value='Order')

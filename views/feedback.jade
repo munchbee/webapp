@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	div.row
+		div.col-md-2
+		div.col-md-6
+			h1= title
+			form(method='post')
+				input(name='feedbackID', class='col-md-6 input-block-level form-control', placeholder='ID') 
+				br
+				br
+				br
+				textarea(name='feedback', class='input-block-level form-control', placeholder='Review' rows='8')
+				br
+				input(id='rating',type='number', name='rating', class='rating',min=0, max=5, step=0.5, data-size='md')
+				br
+				input(type='submit', class='btn btn-primary', value='Submit')
