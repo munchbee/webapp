@@ -1,22 +1,10 @@
 var passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy;
+	LocalStrategy = require('passport-local').Strategy,
+	userSchema = require('./schemas/user');
 
-passport.use(new LocalStrategy(
-	function(username, password, done) {
-		if (username === 'root' && password === 'changeme') {
-			return done(null, {username: username});
-		}
+passport.use(new LocalStrategy(userSchema.authenticate()));
 
-		return done(null, false);
-	}
-));
-
-passport.serializeUser(function(user, done) {
-	done(null, user.username);
-});
-
-passport.deserializeUser(function(username, done) {
-	done(null, {username: username});
-});
+passport.serializeUser(userSchema.serializeUser());
+passport.deserializeUser(userSchema.deserializeUser());
 
 module.exports = passport;

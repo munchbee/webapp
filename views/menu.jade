@@ -5,6 +5,13 @@ block content
 	link(rel="stylesheet", href="style.css")
 	div.row
 		div.col-md-2
+		ul.col-md-9
+			if (user)
+				p You are currently logged in as #{user.firstName}
+			else
+				p You are currently not logged in. Plaese login or register...
+	div.row
+		div.col-md-2
 		ul.col-md-9#sortable.list
 			h2 Preferences
 			each combo, index in menu

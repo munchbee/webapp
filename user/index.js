@@ -3,7 +3,7 @@ var User = function () {
 		userID : null,
 		firstName : null,
 		lastName : null,
-		emailID : null,
+		username : null,
 		password : null,
 		contactNumber : null,
 		company : null,

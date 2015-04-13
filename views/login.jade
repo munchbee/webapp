@@ -1,8 +1,11 @@
 extends layout
 
 block content
-	h1= title
-	form(method='post')
-		input(name='username', class='input-block-level', placeholder='username')
-		input(name='password', class='input-block-level', type='password', placeholder='password')
-		input(type='submit', class='btn btn-primary', value='Log in')
+	div.row
+		div.col-md-2
+		div.col-md-6
+			h1= title
+			form(method='post')
+				input(name='username', class='input-block-level', placeholder='email ID')
+				input(name='password', class='input-block-level', type='password', placeholder='password')
+				input(type='submit', class='btn btn-primary', value='Log In')

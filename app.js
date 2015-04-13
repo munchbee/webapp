@@ -10,6 +10,7 @@ module.exports = function (db) {
 	var routes = require('./routes')(passport);
 	var path = require('path');	
 	var app = express();
+	var session = require('cookie-session');
 
 	// all environments
 	app.set('port', process.env.PORT || 3000);
@@ -29,7 +30,7 @@ module.exports = function (db) {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(function (req, res, next) {
-		res.set('X-Powered-By', 'Flight Tracker');
+		res.set('X-Powered-By', 'Munchbee');
 		next();
 	});
 	app.use(app.router);
@@ -45,22 +46,22 @@ module.exports = function (db) {
 	app.post('/feedback', routes.postFeedback);
 	//app.get('/deletecombo/:id', routes.deleteCombo);
 
-	//app.get('/feedback', routes.feedbackView);
-	//app.post('/feedback', routes.feedback);
-	
 	app.get('/', routes.menu);
 	app.post('/', routes.postOrder);
 
+	app.get('/register',routes.register);
+	app.post('/register', routes.addUser);
 	app.get('/login', routes.login);
-	app.post('/login', passport.authenticate('local', {
-		failureRedirect: '/login',
-		successRedirect: '/'
-	}));
-
+	app.post('/login', passport.authenticate('local'), function(req, res) {
+	  console.log('logging');
+	  res.redirect('/');
+	});
+	app.get('/logout', function(req, res) {
+	  req.logout();
+	  res.redirect('/');
+	});
 	
 	//app.get('/user', routes.user);
 
 	return app;
 }
-
-
