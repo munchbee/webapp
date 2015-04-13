@@ -7,7 +7,7 @@ module.exports = function (db) {
 	var express = require('express');
 	var MongoStore = require('connect-mongo')(express);
 	var passport = require('./auth');
-	var routes = require('./routes')();
+	var routes = require('./routes')(passport);
 	var path = require('path');	
 	var app = express();
 
@@ -48,7 +48,6 @@ module.exports = function (db) {
 	//app.get('/feedback', routes.feedbackView);
 	//app.post('/feedback', routes.feedback);
 	
-
 	app.get('/', routes.menu);
 	app.post('/', routes.postOrder);
 

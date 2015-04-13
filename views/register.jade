@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1= title
+	form(method='post')
+		input(name='firstName', class='input-block-level', placeholder='first name')
+		input(name='lastName', class='input-block-level', placeholder='last name')
+		input(name='emailID', class='input-block-level', placeholder='email')
+		input(name='password', class='input-block-level', type='password', placeholder='password')
+		input(name='contactNumber', class='input-block-level', placeholder='number')
+		input(name='company', class='input-block-level', placeholder='company')
+		input(type='submit', class='btn btn-primary', value='Submit')

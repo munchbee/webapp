@@ -12,10 +12,12 @@
 var feedbackSchema = require('../schemas/feedback');
 var menuSchema = require('../schemas/menu');
 var orderSchema = require('../schemas/order');
+var userSchema = require('../schemas/user');
 
-module.exports = function () {
+module.exports = function (passport) {
 	var feed = require('../feedback');
 	var order =require('../order');
+	var user =require('../user');
 	var functions = {};
 
 /*
@@ -98,8 +100,7 @@ module.exports = function () {
 					res.render('menu', {
 						title: 'Welcome!',
 						user: req.user,
-						menu: combos,
-						lastNumber: req.session.lastNumber
+						menu: combos
 					});
 				}
 			});
@@ -138,6 +139,49 @@ module.exports = function () {
 		}
 	};	
 	
+	/*functions.register = function(req, res) {
+		//add condition to check for admins login
+		res.render('register', {title: 'Sign Up'});
+	
+	};
+
+	functions.addUser = function(req, res) {
+		//add condition to check for admins login
+		userSchema.register(new userSchema({ username : req.body.username }), req.body.password, function(err, account) {
+	        if (err) {
+	            return res.render('register', { account : account });
+	        }
+
+	        passport.authenticate('local')(req, res, function () {
+	          res.redirect('/');
+	        });
+	    });
+			var temp = user(
+			{
+				'userID' : timeStamp('USER'),
+				'firstName' : req.body.firstName,
+				'lastName' : req.body.lastName,
+				'emailID' : req.body.emailID,
+				'password' : req.body.password,
+				'contactNumber' : req.body.contactNumber,
+				'company' : req.body.company,
+				'orderID' : null
+			}).getInformation();
+			console.log(temp);
+		var record = new userSchema(temp);
+
+			record.save(function(err) {
+				if (err) {
+					console.log(err);
+					res.status(500).json({status: 'failure'});
+				} else {
+					res.json({status: 'success'});
+				}
+			});
+			res.redirect('/');
+		
+	};	
+*/
 	functions.login = function(req, res) {
 		if (isLoggedIn(req)) {
 			res.render('login', {title: 'Log in'});
@@ -155,7 +199,7 @@ module.exports = function () {
 		}
 	};
 
-	function timeStamp() {
+	function timeStamp(prefix) {
 		// Create a date object with the current time
 		var now = new Date();
 		 
@@ -183,7 +227,7 @@ module.exports = function () {
 		}
 			 
 			// Return the formatted string
-		return "BLR"+date.join("") + time.join("");
+		return prefix+date.join("") + time.join("");
 	};
 
 	return functions;
