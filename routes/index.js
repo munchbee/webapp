@@ -42,7 +42,7 @@ module.exports = function (passport) {
 		if (isLoggedIn(req)) {
 			res.redirect('/login');
 		} else {
-			res.render('feedback', {title: 'Feedback'});
+			res.render('feedback', {title: 'Feedback', user: req.user});
 		}
 	};
 

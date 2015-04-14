@@ -2,7 +2,6 @@ extends layout
 
 block content
 	script(src="menu.js" type="text/javascript")
-	link(rel="stylesheet", href="style.css")
 	div.row
 		div.col-md-2
 		ul.col-md-9
@@ -15,7 +14,7 @@ block content
 		ul.col-md-9#sortable.list
 			h2 Preferences
 			each combo, index in menu
-				li.thumbnail.col-md-9
+				li.thumbnail.col-md-9.combos
 					div.float_left.col-md-11
 						h3.caption= combo.comboID
 						p= combo.mainCourse 
@@ -32,16 +31,16 @@ block content
 		div.col-md-6
 			h2 Contact Details
 			form(method='post')
-				input(name='name', class='col-md-6 input-block-level form-control', placeholder='Name') 
+				input(name='name', class='col-md-6 input-block-level form-control', value=user.firstName) 
 				br
 				br
-				input(name='contactNumber', class='col-md-6 input-block-level form-control', placeholder='Contact No.') 
+				input(name='contactNumber', class='col-md-6 input-block-level form-control', value=user.contactNumber) 
 				br
 				br
-				input(name='emailId', class='col-md-6 input-block-level form-control', placeholder='Email ID') 
+				input(name='emailId', class='col-md-6 input-block-level form-control', value=user.username) 
 				br
 				br
-				input(name='companyName', class='col-md-6 input-block-level form-control', placeholder='Company') 
+				input(name='companyName', class='col-md-6 input-block-level form-control', value=user.company) 
 				br
 				br
 				br

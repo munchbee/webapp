@@ -10,21 +10,9 @@ html
 		script(src="star-rating.min.js" type="text/javascript")
 		script(src="//code.jquery.com/ui/1.11.4/jquery-ui.js")
 		script(src="script.js" type="text/javascript")
+		link(rel="stylesheet", href="style.css")
+	
 
 	body
-		div(role='navigation').navbar.navbar-default
-			div.container-fluid
-				div.navbar-header
-					button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
-						span(class="sr-only") Toggle navigation
-						span(class='icon-bar')
-						span(class='icon-bar')
-						span(class='icon-bar')
-					a(href='/' , class='navbar-brand') MunchBee
-				div.collapse.navbar-collapse
-					ul.nav.navbar-nav.navbar-right
-						li
-							a(href='/feedback') Feedback
-						li
-							a(href='/feedback') Contact Us
+		include header
 		block content
