@@ -20,7 +20,8 @@ div(role='navigation').navbar.navbar-default.navbar-fixed-top
 						if(user)
 							li
 								a(href='/logout') Logout
-div.container
-	div.row.image_row
-		div.col-md-12
-			img(id='bee_row', src='/images/bee_login.jpg')
+if(user)
+	div.container
+		div.row.image_row
+			div.col-md-12
+				img(id='bee_row', src='/images/bee_login.jpg')
