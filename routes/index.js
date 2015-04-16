@@ -126,7 +126,7 @@ module.exports = function (passport) {
 						}
 					}
 					feedbackSchema.find()
-					.setOptions({sort: 'rating'})
+					.sort({'rating':-1})
 					.exec(function(err, feeds) {
 						if (err) {
 							res.status(500).json({status: 'failure'});

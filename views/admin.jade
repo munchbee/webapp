@@ -14,11 +14,11 @@ block content
 		div.col-md-2
 		ul.col-md-9#sortable.list
 			h3 Orders
-			each combo, index in orderCount
+			each count, index in orderCount
 				li.thumbnail.col-md-8
-					div.col-md-10.offset-col-md-2 #{index}
-					if(combo[1])
-						div.col-md-2 #{combo[1]}
+					div.col-md-10 #{index}
+					if(count[1])
+						div.col-md-2 #{count[1]}
 					else
 						div.col-md-2 0
 	br

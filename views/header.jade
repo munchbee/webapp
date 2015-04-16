@@ -1,4 +1,4 @@
-div(role='navigation').navbar.navbar-default
+div(role='navigation').navbar.navbar-default.navbar-fixed-top
 			div.container-fluid
 				div.navbar-header
 					button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
@@ -20,3 +20,7 @@ div(role='navigation').navbar.navbar-default
 						if(user)
 							li
 								a(href='/logout') Logout
+div.container
+	div.row.image_row
+		div.col-md-12
+			img(id='bee_row', src='/images/bee_login.jpg')

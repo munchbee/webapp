@@ -97,3 +97,12 @@
 .navbar-brand{
     font-family: Olivier; 
 }
+#bee_row{
+    width: 100%;
+}
+.image_row{
+    margin-top: 50px;
+}
+#brand_pic{
+    width: 100%;
+}
