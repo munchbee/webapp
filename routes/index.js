@@ -40,9 +40,9 @@ module.exports = function (passport) {
 		//add condition to check for admins login
 		
 		if (isLoggedIn(req)) {
-			res.redirect('/login');
-		} else {
 			res.render('feedback', {title: 'Feedback', user: req.user});
+		} else {
+			res.redirect('/login');
 		}
 	};
 
@@ -50,9 +50,6 @@ module.exports = function (passport) {
 		//add condition to check for admins login
 		
 		if (isLoggedIn(req)) {
-			res.redirect('/login');
-		} else {
-			
 			var temp = feed(
 			{'feedbackID':req.body.feedbackID,
 			'feedback':req.body.feedback,
@@ -71,6 +68,8 @@ module.exports = function (passport) {
 				}
 			});
 			res.redirect('/');
+		} else {
+			res.redirect('/login');
 		}
 	};	
 
@@ -83,8 +82,6 @@ module.exports = function (passport) {
 
 	functions.menu = function(req, res) {
 		if (isLoggedIn(req)) {
-			res.redirect('/login');
-		} else {
 			menuSchema.find()
 			.setOptions({sort: 'comboID'})
 			.exec(function(err, combos) {
@@ -98,6 +95,55 @@ module.exports = function (passport) {
 					});
 				}
 			});
+		} else {
+			res.redirect('/login');
+		}
+	};
+
+	functions.admin = function(req, res) {
+		if (isLoggedIn(req) && req.user.isAdmin) {
+			orderSchema.find()
+			.setOptions({sort: 'orderID'})
+			.exec(function(err, order) {
+				if (err) {
+					res.status(500).json({status: 'failure'});
+				} else {
+					var count={},orders={};
+					for ( var index in order ){
+						var preferance =order[index];
+						if(preferance.order != undefined){
+							var arr = preferance.order.split(',');
+							for (var i =1 ; i <= arr.length ; i++ ){
+								if ( count[arr[i-1]] == undefined ) {
+									count[arr[i-1]] = {};
+								}
+								if ( count[arr[i-1]][i] == undefined ){
+									count[arr[i-1]][i]=1;
+								}else{
+									count[arr[i-1]][i]++;
+								}
+							}
+						}
+					}
+					feedbackSchema.find()
+					.setOptions({sort: 'rating'})
+					.exec(function(err, feeds) {
+						if (err) {
+							res.status(500).json({status: 'failure'});
+						} else {
+							console.log(count);
+							res.render('admin', {
+								title: 'Hello Admin',
+								user: req.user,
+								feeds: feeds,
+								orderCount: count
+							});
+						}
+					});
+				}
+			});
+		} else {
+			res.redirect('/login');
 		}
 	};
 
@@ -105,9 +151,6 @@ module.exports = function (passport) {
 		//add condition to check for admins login
 		
 		if (isLoggedIn(req)) {
-			res.redirect('/login');
-		} else {
-			
 			//console.log(req.body.data);
 			var temp = order(
 			{
@@ -130,6 +173,8 @@ module.exports = function (passport) {
 				}
 			});
 			res.redirect('/');
+		} else {
+			res.redirect('/login');
 		}
 	};	
 	
@@ -149,6 +194,7 @@ module.exports = function (passport) {
 			password : req.body.password,
 			'contactNumber' : req.body.contactNumber,
 			'company' : req.body.company,
+			isAdmin : false,
 			'orderID' : null
 	    }),
 	  	req.body.password, function(err) {
@@ -165,18 +211,18 @@ module.exports = function (passport) {
 
 	functions.login = function(req, res) {
 		if (isLoggedIn(req)) {
-			res.render('login', {title: 'Log in'});
-		} else {
 			res.redirect('/');
+		} else {
+			res.render('login', {title: 'Log in'});
 		}
 	};
 
 	function isLoggedIn(req){
 		if (req.session.passport.user === undefined) {
 			//change to true when require login
-			return true;
-		}else{
 			return false;
+		}else{
+			return true;
 		}
 	};
 

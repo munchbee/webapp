@@ -7,7 +7,8 @@ var User = function () {
 		password : null,
 		contactNumber : null,
 		company : null,
-		orderID : null
+		orderID : null,
+		isAdmin : false
 	};
 
 	this.fill = function (info) {

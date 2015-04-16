@@ -1,0 +1,35 @@
+extends layout
+
+block content
+	script(src="menu.js" type="text/javascript")
+	div.row
+		div.col-md-2
+		ul.col-md-9
+			if (user)
+				h2 Admin Panel 
+				h4 Hello #{user.firstName}
+			else
+				p You are currently not logged in. Please login or register...
+	div.row
+		div.col-md-2
+		ul.col-md-9#sortable.list
+			h3 Orders
+			each combo, index in orderCount
+				li.thumbnail.col-md-8
+					div.col-md-10.offset-col-md-2 #{index}
+					if(combo[1])
+						div.col-md-2 #{combo[1]}
+					else
+						div.col-md-2 0
+	br
+	br
+	div.row
+		div.col-md-2
+		ul.col-md-9#sortable.list
+			h3 Feedbacks
+			each feed, index in feeds
+				li.thumbnail.col-md-8
+					div.float_left.col-md-11
+						h3.caption= feed.feedbackID
+						p Rating #{feed.rating}
+						p= feed.feedback

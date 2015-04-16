@@ -61,6 +61,8 @@ module.exports = function (db) {
 	  res.redirect('/');
 	});
 	
+	app.get('/admin', routes.admin);
+	
 	//app.get('/user', routes.user);
 
 	return app;

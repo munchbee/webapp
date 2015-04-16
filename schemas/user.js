@@ -10,7 +10,8 @@ var User = new Schema({
 	password : String,
 	contactNumber : String,
 	company : String,
-	orderID : String
+	orderID : String,
+	isAdmin : Boolean
 });
 
 User.plugin(passportLocalMongoose);

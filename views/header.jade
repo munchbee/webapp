@@ -10,6 +10,9 @@ div(role='navigation').navbar.navbar-default
 				div.collapse.navbar-collapse
 					ul.nav.navbar-nav.navbar-right
 						if(user)
+							if(user.isAdmin)
+								li
+									a(href='/admin') Admin
 							li
 								a(href='/feedback') Feedback
 						li

@@ -90,3 +90,10 @@
 .combos{
     min-height: 200px;
 }
+@font-face { 
+    font-family: Olivier; 
+    src: url('/fonts/olivier.ttf'); 
+}
+.navbar-brand{
+    font-family: Olivier; 
+}
