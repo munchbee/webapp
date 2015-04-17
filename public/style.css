@@ -1,3 +1,7 @@
+.parallax-window {
+    min-height: 600px;
+    background: transparent;
+}
 .color_orange{
 	color: #ED4915;
 }
@@ -99,9 +103,6 @@
 }
 #bee_row{
     width: 100%;
-}
-.image_row{
-    margin-top: 50px;
 }
 #brand_pic{
     width: 100%;

@@ -2,7 +2,7 @@ extends layout
 
 block content
 	script(src="menu.js" type="text/javascript")
-	div.row
+	div(data-parallax='scroll' data-image-src='/images/bee_login.jpg').row.parallax-window
 		div.col-md-2
 		ul.col-md-9
 			if (user)
