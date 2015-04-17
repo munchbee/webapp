@@ -1,8 +1,9 @@
 var Feedback = function () {
 	this.data = {
-		feedbackID : null,
+		title : null,
 		feedback : null,
-		rating : null
+		rating : null,
+		timestamp : null
 	};
 
 	this.fill = function (info) {

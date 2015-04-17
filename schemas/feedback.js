@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('Feedback',{
-	feedbackID: String,
+	title: String,
 	feedback: String,
-	rating: String
+	rating: String,
+	timestamp: String
 });

@@ -1,10 +1,7 @@
 var Order = function () {
 	this.data = {
-		orderID : null,
-		name : null,
-		contactNumber : null,
-		emailID : null,
-		companyName : null,
+		timestamp : null,
+		userID : null,
 		order : null
 	};
 

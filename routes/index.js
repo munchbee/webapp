@@ -13,28 +13,6 @@ module.exports = function (passport) {
 	var order =require('../order');
 	var user =require('../user');
 	var functions = {};
-
-/*
-	functions.patchFeedback = function(req, res) {
-		if (isLoggedIn(req)) {
-			res.redirect('/login');
-		} else {
-			feedbackSchema.find()
-			.setOptions({sort: 'feedbackID'})
-			.exec(function(err, feeds) {
-				if (err) {
-					res.status(500).json({status: 'failure'});
-				} else {
-					res.render('feedback', {
-						title: 'Welcome!',
-						user: req.user,
-						feedback: feeds,
-						lastNumber: req.session.lastNumber
-					});
-				}
-			});
-		}
-	};*/
 	
 	functions.feedback = function(req, res) {
 		//add condition to check for admins login
@@ -51,9 +29,10 @@ module.exports = function (passport) {
 		
 		if (isLoggedIn(req)) {
 			var temp = feed(
-			{'feedbackID':req.body.feedbackID,
+			{'title':req.body.feedbackID,
 			'feedback':req.body.feedback,
-			'rating':req.body.rating}
+			'rating':req.body.rating,
+			'timestamp': timeStamp('')}
 			).getInformation();
 
 			req.session.lastNumber = req.body.comboID;
@@ -149,16 +128,12 @@ module.exports = function (passport) {
 
 	functions.postOrder = function(req, res) {
 		//add condition to check for admins login
-		
 		if (isLoggedIn(req)) {
 			//console.log(req.body.data);
 			var temp = order(
 			{
-			'orderID' : timeStamp() ,
-			'name' : req.body.name,
-			'contactNumber' : req.body.contactNumber,
-			'username' : req.body.username,
-			'companyName' : req.body.companyName,
+			'timestamp' : timeStamp('') ,
+			userID : req.user.userID,
 			'order' : req.body.data
 			}).getInformation();
 			

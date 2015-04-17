@@ -12,7 +12,7 @@ block content
 	div.row
 		div.col-md-2
 		ul.col-md-9#sortable.list
-			h3 Preferences
+			h4 Set your preference :
 			each combo, index in menu
 				li.thumbnail.col-md-9.combos
 					div.float_left.col-md-11
@@ -29,19 +29,7 @@ block content
 	div.row
 		div.col-md-2
 		div.col-md-6
-			h2 Contact Details
 			form(method='post')
-				input(name='name', class='col-md-6 input-block-level form-control', value=user.firstName) 
-				br
-				br
-				input(name='contactNumber', class='col-md-6 input-block-level form-control', value=user.contactNumber) 
-				br
-				br
-				input(name='emailId', class='col-md-6 input-block-level form-control', value=user.username) 
-				br
-				br
-				input(name='companyName', class='col-md-6 input-block-level form-control', value=user.company) 
-				br
-				br
-				br
 				input(type='submit', class='btn btn-primary', value='Order')
+				br
+				br

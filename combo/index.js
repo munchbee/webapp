@@ -2,7 +2,8 @@ var Combo = function () {
 	this.data = {
 		comboID : null,
 		mainCourse : null,
-		drinks : null
+		drinks : null,
+		visibility : false
 	};
 
 	this.fill = function (info) {
