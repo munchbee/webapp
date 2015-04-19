@@ -62,7 +62,7 @@ module.exports = function (db) {
 	});
 	
 	app.get('/admin', routes.admin);
-	
+	app.get('/cancelorder',routes.cancelOrder);
 	//app.get('/user', routes.user);
 
 	return app;

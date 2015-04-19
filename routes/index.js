@@ -3,10 +3,10 @@
  * GET home page.
  */
 
-var feedbackSchema = require('../schemas/feedback');
-var menuSchema = require('../schemas/menu');
-var orderSchema = require('../schemas/order');
-var userSchema = require('../schemas/user');
+var feedbackSchema = require('../models/feedback');
+var menuSchema = require('../models/menu');
+var orderSchema = require('../models/order');
+var userSchema = require('../models/user');
 
 module.exports = function (passport) {
 	var feed = require('../feedback');
@@ -129,10 +129,11 @@ module.exports = function (passport) {
 	functions.postOrder = function(req, res) {
 		//add condition to check for admins login
 		if (isLoggedIn(req)) {
+			var time= timeStamp('');
 			//console.log(req.body.data);
 			var temp = order(
 			{
-			'timestamp' : timeStamp('') ,
+			'timestamp' : time ,
 			userID : req.user.userID,
 			'order' : req.body.data
 			}).getInformation();
@@ -147,12 +148,48 @@ module.exports = function (passport) {
 					res.json({status: 'success'});
 				}
 			});
+
+			var conditions = { _id: req.user._id };
+			var update = { $set: { orderID:  time}};
+			var options = { upsert: true };
+
+			userSchema.update(conditions, update, options, function(err, num, n){
+			    if(err){
+			        throw err;
+			    }
+			    console.log("updated order to timestamp "+time);
+			});
 			res.redirect('/');
 		} else {
 			res.redirect('/login');
 		}
 	};	
 	
+	functions.cancelOrder = function( req, res){
+		if (isLoggedIn(req)) {
+			orderSchema.remove({ timestamp: req.user.orderID },
+								function(err, order) {
+								    if (err) {
+								      return res.send(err);
+								    }
+								 console.log('Successfully deleted order'+order );
+								  });
+			var conditions = { _id: req.user._id };
+			var update = { $set: { orderID:  null}};
+			var options = { upsert: true };
+
+			userSchema.update(conditions, update, options, function(err, num, n){
+			    if(err){
+			        throw err;
+			    }
+			    console.log("cancelled order");
+			});
+			res.redirect('/');
+		} else {
+			res.redirect('/login');
+		}
+	};
+
 	functions.register = function(req, res) {
 		//add condition to check for admins login
 		res.render('register', {title: 'Register'});

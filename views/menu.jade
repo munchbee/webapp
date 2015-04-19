@@ -26,8 +26,14 @@ block content
 								span(class="glyphicon glyphicon-chevron-down" aria-hidden="true")
 	div.row
 		div.col-md-2
-		div.col-md-6
+		div.col-md-7
 			form(method='post')
-				input(type='submit', class='btn btn-primary', value='Order')
+				div( class="btn-group btn-group-justified" role="group" aria-label="...")
+					div(class="btn-group" role="group")
+						input(type='submit', class='btn btn-success', value='Order')
 				br
+			div( class="btn-group btn-group-justified" role="group" aria-label="...")
+					div(class="btn-group" role="group")
+						a(href='/cancelorder',class='btn btn-danger') Cancel Order
 				br
+			br
