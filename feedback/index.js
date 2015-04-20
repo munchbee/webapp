@@ -3,7 +3,8 @@ var Feedback = function () {
 		title : null,
 		feedback : null,
 		rating : null,
-		timestamp : null
+		timestamp : null,
+		userID : null
 	};
 
 	this.fill = function (info) {

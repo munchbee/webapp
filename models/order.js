@@ -3,5 +3,6 @@ var mongoose = require('mongoose');
 module.exports = mongoose.model('Order',{
 	timestamp : String,
 	userID : String,
-	order : String
+	order : String,
+	company : String
 });

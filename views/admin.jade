@@ -6,30 +6,34 @@ block content
 		div.col-md-2
 		ul.col-md-9
 			if (user)
-				h2 Admin Panel 
-				h4 Hello #{user.firstName}
+				h2 Admin Panel
 			else
 				p You are currently not logged in. Please login or register...
 	div.row
 		div.col-md-2
-		ul.col-md-9#sortable.list
+		div.col-md-9
 			h3 Orders
-			each count, index in orderCount
-				li.thumbnail.col-md-8
-					div.col-md-10 #{index}
-					if(count[1])
-						div.col-md-2 #{count[1]}
-					else
-						div.col-md-2 0
+			table.table.table-striped
+				each count, index in orderCount
+					tr
+						td #{index}
+						if(count[1])
+							td #{count[1]}
+						else
+							td 0
 	br
 	br
 	div.row
 		div.col-md-2
-		ul.col-md-9#sortable.list
+		div.col-md-9
 			h3 Feedbacks
-			each feed, index in feeds
-				li.thumbnail.col-md-8
-					div.float_left.col-md-11
-						h3.caption= feed.feedbackID
-						p Rating #{feed.rating}
-						p= feed.feedback
+			table.table.table-striped
+				tr
+					th title
+					th review
+					th ratings
+				each feed, index in feeds
+					tr
+						td= feed.title
+						td= feed.feedback
+						td= feed.rating

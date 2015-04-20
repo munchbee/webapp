@@ -1,9 +1,10 @@
 var Combo = function () {
 	this.data = {
 		comboID : null,
+		comboName : null,
 		mainCourse : null,
 		drinks : null,
-		visibility : false
+		isVisible : false
 	};
 
 	this.fill = function (info) {

@@ -12,18 +12,19 @@ block content
 		ul.col-md-9#sortable.list
 			h4 Set your preference :
 			each combo, index in menu
-				li.thumbnail.col-md-9.combos
-					div.float_left.col-md-11
-						h3.caption= combo.comboID
-						p= combo.mainCourse 
-						p= combo.drinks
-					div.col-md-1
-						div#priority_up.btn-lg
-							a(href='#').reorder-up
-								span(class="glyphicon glyphicon-chevron-up" aria-hidden="true")
-						div#priority_down.btn-lg
-							a(href='#').reorder-down
-								span(class="glyphicon glyphicon-chevron-down" aria-hidden="true")
+				if(combo.isVisible)
+					li.thumbnail.col-md-9.combos
+						div.float_left.col-md-11
+							h3.caption= combo.comboName
+							p= combo.mainCourse 
+							p= combo.drinks
+						div.col-md-1
+							div#priority_up.btn-lg
+								a(href='#').reorder-up
+									span(class="glyphicon glyphicon-chevron-up" aria-hidden="true")
+							div#priority_down.btn-lg
+								a(href='#').reorder-down
+									span(class="glyphicon glyphicon-chevron-down" aria-hidden="true")
 	div.row
 		div.col-md-2
 		div.col-md-7

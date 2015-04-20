@@ -32,7 +32,8 @@ module.exports = function (passport) {
 			{'title':req.body.feedbackID,
 			'feedback':req.body.feedback,
 			'rating':req.body.rating,
-			'timestamp': timeStamp('')}
+			'timestamp': timeStamp(''),
+			userID: req.user.userID}
 			).getInformation();
 
 			req.session.lastNumber = req.body.comboID;
@@ -81,7 +82,7 @@ module.exports = function (passport) {
 
 	functions.admin = function(req, res) {
 		if (isLoggedIn(req) && req.user.isAdmin) {
-			orderSchema.find()
+			orderSchema.find({'company' : req.user.company})
 			.setOptions({sort: 'orderID'})
 			.exec(function(err, order) {
 				if (err) {
@@ -135,7 +136,8 @@ module.exports = function (passport) {
 			{
 			'timestamp' : time ,
 			userID : req.user.userID,
-			'order' : req.body.data
+			'order' : req.body.data,
+			company : req.user.company
 			}).getInformation();
 			
 			var record = new orderSchema(temp);
