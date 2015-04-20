@@ -79,20 +79,26 @@ module.exports = function (passport) {
 			res.redirect('/login');
 		}
 	};
-
+	
 	functions.admin = function(req, res) {
+		var count={},orders={}, userOrders = {};
 		if (isLoggedIn(req) && req.user.isAdmin) {
 			orderSchema.find({'company' : req.user.company})
-			.setOptions({sort: 'orderID'})
+			.setOptions({sort: 'timestamp'})
 			.exec(function(err, order) {
 				if (err) {
 					res.status(500).json({status: 'failure'});
 				} else {
-					var count={},orders={};
 					for ( var index in order ){
 						var preferance =order[index];
 						if(preferance.order != undefined){
 							var arr = preferance.order.split(',');
+							if (userOrders[arr[0]] == undefined){
+								userOrders[arr[0]]={};
+								userOrders[arr[0]][preferance.fullName]=preferance.contactNumber;
+							} else {
+								userOrders[arr[0]][preferance.fullName]=preferance.contactNumber;
+							}
 							for (var i =1 ; i <= arr.length ; i++ ){
 								if ( count[arr[i-1]] == undefined ) {
 									count[arr[i-1]] = {};
@@ -105,18 +111,19 @@ module.exports = function (passport) {
 							}
 						}
 					}
+
 					feedbackSchema.find()
 					.sort({'rating':-1})
 					.exec(function(err, feeds) {
 						if (err) {
 							res.status(500).json({status: 'failure'});
 						} else {
-							console.log(count);
 							res.render('admin', {
 								title: 'Hello Admin',
 								user: req.user,
 								feeds: feeds,
-								orderCount: count
+								orderCount: count,
+								orderList: userOrders
 							});
 						}
 					});
@@ -136,6 +143,8 @@ module.exports = function (passport) {
 			{
 			'timestamp' : time ,
 			userID : req.user.userID,
+			'fullName' : req.user.firstName + ' ' + req.user.lastName,
+			'contactNumber' : req.user.contactNumber,
 			'order' : req.body.data,
 			company : req.user.company
 			}).getInformation();

@@ -2,6 +2,8 @@ var Order = function () {
 	this.data = {
 		timestamp : null,
 		userID : null,
+		fullName : null,
+		contactNumber : null,
 		order : null,
 		company : null
 	};

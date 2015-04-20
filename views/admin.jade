@@ -21,6 +21,18 @@ block content
 							td #{count[1]}
 						else
 							td 0
+			br
+			br
+			h3 Combo-wise order list
+			br
+			each combo, index in orderList
+				h4
+					strong #{index}
+				table.table.table-striped 
+					each number, name in combo
+						tr
+							td #{name}
+							td #{number}
 	br
 	br
 	div.row
