@@ -160,6 +160,13 @@ module.exports = function (passport) {
 					res.json({status: 'success'});
 				}
 			});
+			orderSchema.remove({ timestamp: req.user.orderID },
+								function(err, order) {
+								    if (err) {
+								      return res.send(err);
+								    }
+								 console.log('Successfully deleted order'+order );
+								  });
 
 			var conditions = { _id: req.user._id };
 			var update = { $set: { orderID:  time}};
@@ -243,7 +250,6 @@ module.exports = function (passport) {
 
 	function isLoggedIn(req){
 		if (req.session.passport.user === undefined) {
-			//change to true when require login
 			return false;
 		}else{
 			return true;
