@@ -62,12 +62,13 @@ module.exports = function (passport) {
 
 	functions.menu = function(req, res) {
 		if (isLoggedIn(req)) {
-			menuSchema.find()
+			menuSchema.find({'isVisible':true})
 			.setOptions({sort: 'comboID'})
 			.exec(function(err, combos) {
 				if (err) {
 					res.status(500).json({status: 'failure'});
 				} else {
+					console.log(combos);
 					res.render('menu', {
 						title: 'Welcome!',
 						user: req.user,
