@@ -1,3 +1,9 @@
+
+#brand{
+    height : 80px;
+    padding: 0;
+    margin-top: -28px;
+}
 .parallax-window {
     min-height: 600px;
     background: transparent;
