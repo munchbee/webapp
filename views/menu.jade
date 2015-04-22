@@ -37,12 +37,13 @@ block content
 			div.col-md-2
 			div.col-md-7
 				form(method='post')
-					div( class="btn-group btn-group-justified" role="group" aria-label="...")
+					div(class="btn-group btn-group-justified" role="group" aria-label="...")
 						div(class="btn-group" role="group")
-							input(type='submit', class='btn btn-success', value='Order')
+							input.menu_button(type='submit', class='btn btn-success', value='Order')
 					br
 				div( class="btn-group btn-group-justified" role="group" aria-label="...")
 						div(class="btn-group" role="group")
-							a(href='/cancelorder',class='btn btn-danger') Cancel Order
+							a.menu_button(href='/cancelorder',class='btn btn-danger') Cancel Order
 					br
+				br
 				br
