@@ -71,9 +71,11 @@ module.exports = function (passport) {
 					console.log(combos);
 					res.render('menu', {
 						title: 'Welcome!',
+						message: req.session.message,
 						user: req.user,
 						menu: combos
 					});
+					req.session.message=null;
 				}
 			});
 		} else {
@@ -178,6 +180,7 @@ module.exports = function (passport) {
 			    }
 			    console.log("updated order to timestamp "+time);
 			});
+			req.session.message='Your order has been placed. You can change it by ordering again. Have a good day!'
 			res.redirect('/');
 		} else {
 			res.redirect('/login');
