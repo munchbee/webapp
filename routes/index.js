@@ -86,8 +86,11 @@ module.exports = function (passport) {
 	
 	functions.admin = function(req, res) {
 		var count={},orders={}, userOrders = {};
+		var today = new Date();
+		var ms = today.getTime() - 86400000;
+		var yesterday = new Date(ms);
 		if (isLoggedIn(req) && req.user.isAdmin) {
-			orderSchema.find({'company' : req.user.company})
+			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: getTimebound(yesterday), $lt: getTimebound(today) }})
 			.setOptions({sort: 'timestamp'})
 			.exec(function(err, order) {
 				if (err) {
@@ -269,7 +272,7 @@ module.exports = function (passport) {
 		date[1] = (date[1]<10)? '0'+date[1] : date[1];
 		date[0] = (date[0]<10)? '0'+date[0] : date[0];
 
-		time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12;
+		time[0] = ( time[0] < 12 ) ? (( time[0] < 10 ) ? '0'+time[0]:time[0] ): time[0] - 12;
 		time[0] = time[0] || 12;
 		 
 		for ( var i = 1; i < 3; i++ ) {
@@ -279,6 +282,16 @@ module.exports = function (passport) {
 		}
 		return prefix+date.join("") + time.join("");
 	};
+	function getTimebound(now) {
+		// Create a date object with the current time
+		
+		var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+		var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
+		
+		date[1] = (date[1]<10)? '0'+date[1] : date[1];
+		date[0] = (date[0]<10)? '0'+date[0] : date[0];
 
+		return date.join("") + "000001";
+	};
 	return functions;
 };
