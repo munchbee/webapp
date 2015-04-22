@@ -89,8 +89,9 @@ module.exports = function (passport) {
 		var today = new Date();
 		var ms = today.getTime() - 64800000;
 		var yesterday = new Date(ms);
+		console.log(getTimebound(yesterday));
 		if (isLoggedIn(req) && req.user.isAdmin) {
-			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: getTimebound(yesterday), $lt: getTimebound(today) }})
+			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: getTimebound(yesterday) }})
 			.setOptions({sort: 'timestamp'})
 			.exec(function(err, order) {
 				if (err) {
