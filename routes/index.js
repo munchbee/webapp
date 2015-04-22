@@ -68,14 +68,15 @@ module.exports = function (passport) {
 				if (err) {
 					res.status(500).json({status: 'failure'});
 				} else {
+					var message=req.session.message;
+					req.session.message=null;
 					console.log(combos);
 					res.render('menu', {
 						title: 'Welcome!',
-						message: req.session.message,
+						message: message,
 						user: req.user,
 						menu: combos
 					});
-					req.session.message=null;
 				}
 			});
 		} else {
