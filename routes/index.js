@@ -87,7 +87,7 @@ module.exports = function (passport) {
 	functions.admin = function(req, res) {
 		var count={},orders={}, userOrders = {};
 		var today = new Date();
-		var ms = today.getTime() - 86400000;
+		var ms = today.getTime() - 64800000;
 		var yesterday = new Date(ms);
 		if (isLoggedIn(req) && req.user.isAdmin) {
 			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: getTimebound(yesterday), $lt: getTimebound(today) }})
