@@ -277,8 +277,7 @@ module.exports = function (passport) {
 		date[1] = (date[1]<10)? '0'+date[1] : date[1];
 		date[0] = (date[0]<10)? '0'+date[0] : date[0];
 
-		time[0] = ( time[0] < 12 ) ? (( time[0] < 10 ) ? '0'+time[0]:time[0] ): time[0] - 12;
-		time[0] = time[0] || 12;
+		time[0] = ( time[0] < 10 ) ? ('0'+time[0]):time[0] ;
 		 
 		for ( var i = 1; i < 3; i++ ) {
 			if ( time[i] < 10 ) {
