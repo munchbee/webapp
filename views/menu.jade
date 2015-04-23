@@ -15,6 +15,10 @@ block content
 					br
 					div.row
 						div.col-md-9(class="alert alert-success" role="alert") #{message}
+				if(alert)
+					br
+					div.row
+						div.col-md-9(class="alert alert-danger" role="alert") #{alert}
 				h4 Set your preference 
 				each combo, index in menu
 					li.thumbnail.col-md-9.combos

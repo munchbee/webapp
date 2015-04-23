@@ -69,11 +69,14 @@ module.exports = function (passport) {
 					res.status(500).json({status: 'failure'});
 				} else {
 					var message=req.session.message;
+					var alert=req.session.alert;
 					req.session.message=null;
+					req.session.alert=null;
 					console.log(combos);
 					res.render('menu', {
 						title: 'Welcome!',
 						message: message,
+						alert: alert,
 						user: req.user,
 						menu: combos
 					});
@@ -211,6 +214,7 @@ module.exports = function (passport) {
 			    }
 			    console.log("cancelled order");
 			});
+			req.session.alert='Your order has been cancelled';
 			res.redirect('/');
 		} else {
 			res.redirect('/login');
