@@ -148,7 +148,7 @@ module.exports = function (passport) {
 			var today = date(5.5);
 			var upper = queryBuilderOrder(today);
 			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'210000'));
-			if( true){
+			if( timeStampForTime(today) <= timeStampCustom(upper,'210000')){
 				var time= timeStamp('');
 				console.log(req.body.data);
 				//console.log(req.body.data);
