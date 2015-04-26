@@ -16,6 +16,8 @@ $('.reorder-down').click(function(){
 	}
 	return false;
 });
+/*
 $( "#sortable" ).sortable();
 $( "#sortable" ).disableSelection();
+*/
 });
