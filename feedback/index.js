@@ -4,7 +4,8 @@ var Feedback = function () {
 		feedback : null,
 		rating : null,
 		timestamp : null,
-		userID : null
+		userID : null,
+		comboID : null
 	};
 
 	this.fill = function (info) {

@@ -5,5 +5,6 @@ module.exports = mongoose.model('Feedback',{
 	feedback: String,
 	rating: String,
 	timestamp: String,
-	userID: String
+	userID: String,
+	comboID: String
 });

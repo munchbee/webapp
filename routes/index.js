@@ -7,7 +7,6 @@ var feedbackSchema = require('../models/feedback');
 var menuSchema = require('../models/menu');
 var orderSchema = require('../models/order');
 var userSchema = require('../models/user');
-
 module.exports = function (passport) {
 	var feed = require('../feedback');
 	var order =require('../order');
@@ -89,12 +88,11 @@ module.exports = function (passport) {
 	
 	functions.admin = function(req, res) {
 		var count={},orders={}, userOrders = {};
-		var today = new Date();
-		var ms = today.getTime() - 64800000;
-		var yesterday = new Date(ms);
-		console.log(getTimebound(yesterday));
+		var now = date(5.5);
+		var lower = queryBuilderAdmin(now);
+		console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
 		if (isLoggedIn(req) && req.user.isAdmin) {
-			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: getTimebound(yesterday) }})
+			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: timeStampCustom(lower,'000001'),$lt: timeStampForTime(now) }})
 			.setOptions({sort: 'timestamp'})
 			.exec(function(err, order) {
 				if (err) {
@@ -146,49 +144,57 @@ module.exports = function (passport) {
 	};
 
 	functions.postOrder = function(req, res) {
-		//add condition to check for admins login
 		if (isLoggedIn(req)) {
-			var time= timeStamp('');
-			//console.log(req.body.data);
-			var temp = order(
-			{
-			'timestamp' : time ,
-			userID : req.user.userID,
-			'fullName' : req.user.firstName + ' ' + req.user.lastName,
-			'contactNumber' : req.user.contactNumber,
-			'order' : req.body.data,
-			company : req.user.company
-			}).getInformation();
-			
-			var record = new orderSchema(temp);
+			var today = date(5.5);
+			var upper = queryBuilderOrder(today);
+			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'210000'));
+			if( timeStampForTime(today) <= timeStampCustom(upper,'210000')){
+				var time= timeStamp('');
+				console.log(req.body.data);
+				//console.log(req.body.data);
+				var temp = order(
+				{
+				'timestamp' : time ,
+				userID : req.user.userID,
+				'fullName' : req.user.firstName + ' ' + req.user.lastName,
+				'contactNumber' : req.user.contactNumber,
+				'order' : req.body.data,
+				company : req.user.company
+				}).getInformation();
+				
+				var record = new orderSchema(temp);
 
-			record.save(function(err) {
-				if (err) {
-					console.log(err);
-					res.status(500).json({status: 'failure'});
-				} else {
-					res.json({status: 'success'});
-				}
-			});
-			orderSchema.remove({ timestamp: req.user.orderID },
-								function(err, order) {
-								    if (err) {
-								      return res.send(err);
-								    }
-								 console.log('Successfully deleted order'+order );
-								  });
+				record.save(function(err) {
+					if (err) {
+						console.log(err);
+						res.status(500).json({status: 'failure'});
+					} else {
+						res.json({status: 'success'});
+					}
+				});
+				orderSchema.remove({ timestamp: req.user.orderID },
+									function(err, order) {
+									    if (err) {
+									      return res.send(err);
+									    }
+									 console.log('Successfully deleted order'+order );
+									  });
 
-			var conditions = { _id: req.user._id };
-			var update = { $set: { orderID:  time}};
-			var options = { upsert: true };
+				var conditions = { _id: req.user._id };
+				var update = { $set: { orderID:  time}};
+				var options = { upsert: true };
 
-			userSchema.update(conditions, update, options, function(err, num, n){
-			    if(err){
-			        throw err;
-			    }
-			    console.log("updated order to timestamp "+time);
-			});
-			req.session.message='Your order has been placed. You can change it by ordering again. Have a good day!'
+				userSchema.update(conditions, update, options, function(err, num, n){
+				    if(err){
+				        throw err;
+				    }
+				    console.log("updated order to timestamp "+time);
+				});
+				req.session.message='Your order has been placed. You can change it by ordering again. Have a good day!';
+			}
+			else {
+				req.session.alert='Orders are only taken till 9:00 pm . Apologies for the Inconvenience !';
+			}
 			res.redirect('/');
 		} else {
 			res.redirect('/login');
@@ -197,24 +203,32 @@ module.exports = function (passport) {
 	
 	functions.cancelOrder = function( req, res){
 		if (isLoggedIn(req)) {
-			orderSchema.remove({ timestamp: req.user.orderID },
-								function(err, order) {
-								    if (err) {
-								      return res.send(err);
-								    }
-								 console.log('Successfully deleted order'+order );
-								  });
-			var conditions = { _id: req.user._id };
-			var update = { $set: { orderID:  null}};
-			var options = { upsert: true };
+			var today = date(5.5);
+			var upper = queryBuilderOrder(today);
+			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'210000'));
+			if( timeStampForTime(today) <= timeStampCustom(upper,'210000')){
+				orderSchema.remove({ timestamp: req.user.orderID },
+									function(err, order) {
+									    if (err) {
+									      return res.send(err);
+									    }
+									 console.log('Successfully deleted order'+order );
+									  });
+				var conditions = { _id: req.user._id };
+				var update = { $set: { orderID:  null}};
+				var options = { upsert: true };
 
-			userSchema.update(conditions, update, options, function(err, num, n){
-			    if(err){
-			        throw err;
-			    }
-			    console.log("cancelled order");
-			});
-			req.session.alert='Your order has been cancelled';
+				userSchema.update(conditions, update, options, function(err, num, n){
+				    if(err){
+				        throw err;
+				    }
+				    console.log("cancelled order");
+				});
+				req.session.alert='Your order has been cancelled';
+			}
+			else{
+				req.session.alert='Orders are only taken till 9:00 pm . Apologies for the Inconvenience !';
+			}
 			res.redirect('/');
 		} else {
 			res.redirect('/login');
@@ -270,12 +284,15 @@ module.exports = function (passport) {
 
 	function timeStamp(prefix) {
 		// Create a date object with the current time
-		var now = new Date();
-		var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+		var today = new Date();
+		var ms = today.getTime() + 19800000;
+		var now = new Date(ms);
+
+		var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
 		var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
 		
 		date[1] = (date[1]<10)? '0'+date[1] : date[1];
-		date[0] = (date[0]<10)? '0'+date[0] : date[0];
+		date[2] = (date[2]<10)? '0'+date[2] : date[2];
 
 		time[0] = ( time[0] < 10 ) ? ('0'+time[0]):time[0] ;
 		 
@@ -286,16 +303,83 @@ module.exports = function (passport) {
 		}
 		return prefix+date.join("") + time.join("");
 	};
-	function getTimebound(now) {
+	function timeStampForTime(now) {
 		// Create a date object with the current time
-		
-		var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+		var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
 		var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
 		
 		date[1] = (date[1]<10)? '0'+date[1] : date[1];
-		date[0] = (date[0]<10)? '0'+date[0] : date[0];
+		date[2] = (date[2]<10)? '0'+date[2] : date[2];
 
-		return date.join("") + "000001";
+		time[0] = ( time[0] < 10 ) ? ('0'+time[0]):time[0] ;
+		 
+		for ( var i = 1; i < 3; i++ ) {
+			if ( time[i] < 10 ) {
+				time[i] = "0" + time[i];
+			}
+		}
+		return date.join("") + time.join("");
 	};
+	function timeStampCustom(now,time) {
+		// Create a date object with the current time
+
+		var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
+		
+		date[1] = (date[1]<10)? '0'+date[1] : date[1];
+		date[2] = (date[2]<10)? '0'+date[2] : date[2];
+
+		return date.join("") + time;
+	};
+
 	return functions;
 };
+function date(hours){
+	var now= new Date();
+	var time = new Date(now.getTime()+(hours*3600000));
+	return time;
+}
+function queryBuilderOrder(now){
+	var upper;
+	switch(now.getDay()) {
+	    case 5:
+	    	var d = date(2*24);
+	    	d.setHours(21);
+	    	d.setMinutes(00);
+	        upper = d;
+	        break;
+	    case 6:
+	        var d = date(24);
+	    	d.setHours(21);
+	    	d.setMinutes(00);
+	        upper = d;
+	        break;
+	    default:
+	        var d = date(0);
+	    	d.setHours(21);
+	    	d.setMinutes(00);
+	        upper = d;
+	}
+	return upper;
+}
+function queryBuilderAdmin(now){
+	var lower;
+	switch(now.getDay()) {
+	    case 6:
+	        var d = date(-18.5);
+	    	d.setHours(11);
+	    	d.setMinutes(00);
+	        lower = d;
+	        break;
+	    case 0:
+	        var d = date(-42.5);
+	    	d.setHours(11);
+	    	d.setMinutes(00);
+	        lower = d;
+	        break;
+	    default:
+	        now.setHours(11);
+	        now.setMinutes(00);
+	        lower = now;
+	}
+	return lower;
+}
