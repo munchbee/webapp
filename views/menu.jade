@@ -2,6 +2,19 @@ extends layout
 
 block content
 	script(src="menu.js" type="text/javascript")
+	div.col-md-3.col-md-offset-9.thumbnail#cart
+		if(menu.length > 0)
+			ul#order Drag your first 
+					strong two 
+					span preferences here
+			form(method='post')
+						div(class="btn-group btn-group-justified" role="group" aria-label="...")
+							div(class="btn-group" role="group")
+								input.menu_button(type='submit', class='btn btn-success', value='Order')
+					div( class="btn-group btn-group-justified" role="group" aria-label="...")
+							div(class="btn-group" role="group")
+								a.menu_button(href='/cancelorder',class='btn btn-danger') Cancel Order
+						br
 	div(data-parallax='scroll', data-image-src='/images/biryani').parallax-window.row
 		div.col-md-2
 		ul.col-md-9
@@ -9,7 +22,7 @@ block content
 				p You are currently not logged in. Please login or register...
 	div.row
 		div.col-md-2
-		ul.col-md-9#sortable.list
+		ul.col-md-6#menu.list
 			if(menu.length > 0)
 				if(message)
 					br
@@ -19,35 +32,12 @@ block content
 					br
 					div.row
 						div.col-md-9(class="alert alert-danger" role="alert") #{alert}
-				h4 Set your preference 
 				each combo, index in menu
-					li.thumbnail.col-md-9.combos
-						div.float_left.col-md-11
+					li.thumbnail.col-md-5.combos
+						div.float_left.col-md-10
 							h3.caption= combo.comboName
 							p= combo.mainCourse 
 							p= combo.drinks
-						div.col-md-1
-							div#priority_up.btn-lg
-								a(href='#').reorder-up
-									span(class="glyphicon glyphicon-chevron-up" aria-hidden="true")
-							div#priority_down.btn-lg
-								a(href='#').reorder-down
-									span(class="glyphicon glyphicon-chevron-down" aria-hidden="true")
 			else
 				br
 				div(class="alert alert-info" role="alert") Menu not yet decided. May be drop a suggestion if you have
-	if(menu.length > 0)
-		div.row
-			div.col-md-2
-			div.col-md-7
-				form(method='post')
-					div(class="btn-group btn-group-justified" role="group" aria-label="...")
-						div(class="btn-group" role="group")
-							input.menu_button(type='submit', class='btn btn-success', value='Order')
-					br
-				div( class="btn-group btn-group-justified" role="group" aria-label="...")
-						div(class="btn-group" role="group")
-							a.menu_button(href='/cancelorder',class='btn btn-danger') Cancel Order
-					br
-				br
-				br

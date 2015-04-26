@@ -1,3 +1,18 @@
+.removeFromCart{
+   margin-top: 20px;
+}
+#cart{
+    height: 310px;
+    position: fixed;
+    top: 400px;
+}
+.order{
+    margin: 0;
+    width: 98%;
+}
+#order{
+    height: 60%;
+}
 .menu_button{
     height: 55px;
     padding-top: 12px;
@@ -19,7 +34,7 @@ h3{
 .color_orange{
 	color: #ED4915;
 }
-#sortable li{
+#menu li{
 	margin : 10px;
 }
 .float_left{
