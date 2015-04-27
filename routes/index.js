@@ -92,7 +92,11 @@ module.exports = function (passport) {
 		var lower = queryBuilderAdmin(now);
 		console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
 		if (isLoggedIn(req) && req.user.isAdmin) {
-			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: timeStampCustom(lower,'000001'),$lt: timeStampForTime(now) }})
+			var upper = now;
+			if( now.getHours < 12){
+				upper = date(-18.5);
+			}
+			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: timeStampCustom(lower,'000001'),$lt: timeStampForTime(upper) }})
 			.setOptions({sort: 'timestamp'})
 			.exec(function(err, order) {
 				if (err) {
