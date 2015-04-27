@@ -88,7 +88,7 @@ module.exports = function (passport) {
 	
 	functions.admin = function(req, res) {
 		var count={},orders={}, userOrders = {};
-		var now = date(5.5);
+		var now = date(0);
 		var lower = queryBuilderAdmin(now);
 		console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
 		if (isLoggedIn(req) && req.user.isAdmin) {
@@ -147,9 +147,9 @@ module.exports = function (passport) {
 		if (isLoggedIn(req)) {
 			var today = date(5.5);
 			var upper = queryBuilderOrder(today);
-			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'210000'));
-			if( timeStampForTime(today) <= timeStampCustom(upper,'210000')){
-				var time= timeStamp('');
+			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'235959'));
+			if( timeStampForTime(today) <= timeStampCustom(upper,'235959')){
+				var time= timeStampForTime(today);
 				console.log(req.body.data);
 				//console.log(req.body.data);
 				var temp = order(
@@ -322,9 +322,7 @@ module.exports = function (passport) {
 	};
 	function timeStampCustom(now,time) {
 		// Create a date object with the current time
-
 		var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
-		
 		date[1] = (date[1]<10)? '0'+date[1] : date[1];
 		date[2] = (date[2]<10)? '0'+date[2] : date[2];
 
@@ -365,20 +363,12 @@ function queryBuilderAdmin(now){
 	var lower;
 	switch(now.getDay()) {
 	    case 6:
-	        var d = date(-18.5);
-	    	d.setHours(11);
-	    	d.setMinutes(00);
-	        lower = d;
+	        lower = date(-18.5);
 	        break;
 	    case 0:
-	        var d = date(-42.5);
-	    	d.setHours(11);
-	    	d.setMinutes(00);
-	        lower = d;
+	        lower = date(-42.5);
 	        break;
 	    default:
-	        now.setHours(11);
-	        now.setMinutes(00);
 	        lower = now;
 	}
 	return lower;
