@@ -93,7 +93,7 @@ module.exports = function (passport) {
 		console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
 		if (isLoggedIn(req) && req.user.isAdmin) {
 			var upper = now;
-			if( now.getHours < 12){
+			if( now.getHours() < 12){
 				upper = date(-18.5);
 			}
 			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: timeStampCustom(lower,'000001'),$lt: timeStampForTime(upper) }})
