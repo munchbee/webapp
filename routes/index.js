@@ -89,14 +89,16 @@ module.exports = function (passport) {
 	functions.admin = function(req, res) {
 		var count={},orders={}, userOrders = {};
 		var now = date(5.5);
-		var lower = queryBuilderAdmin(now);
-		console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
+		var lower;
 		if (isLoggedIn(req) && req.user.isAdmin) {
 			var upper = now;
 			if( now.getHours() < 12){
-				upper = date(-18.5);
+				lower = queryBuilderAdmin(date(-18.5));
+			}else{
+				 lower = queryBuilderAdmin(now);
 			}
-			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: timeStampCustom(lower,'000001'),$lt: timeStampForTime(upper) }})
+			console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
+			orderSchema.find({'company' : req.user.company,'timestamp': { $gt: timeStampCustom(lower,'000001'),$lt: timeStampForTime(now) }})
 			.setOptions({sort: 'timestamp'})
 			.exec(function(err, order) {
 				if (err) {
