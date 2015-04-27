@@ -88,7 +88,7 @@ module.exports = function (passport) {
 	
 	functions.admin = function(req, res) {
 		var count={},orders={}, userOrders = {};
-		var now = date(0);
+		var now = date(5.5);
 		var lower = queryBuilderAdmin(now);
 		console.log(timeStampCustom(lower,'000001')+"-"+timeStampForTime(now));
 		if (isLoggedIn(req) && req.user.isAdmin) {
@@ -205,8 +205,8 @@ module.exports = function (passport) {
 		if (isLoggedIn(req)) {
 			var today = date(5.5);
 			var upper = queryBuilderOrder(today);
-			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'210000'));
-			if( timeStampForTime(today) <= timeStampCustom(upper,'210000')){
+			console.log(timeStampForTime(today)+' < '+timeStampCustom(upper,'235959'));
+			if( timeStampForTime(today) <= timeStampCustom(upper,'235959')){
 				orderSchema.remove({ timestamp: req.user.orderID },
 									function(err, order) {
 									    if (err) {
